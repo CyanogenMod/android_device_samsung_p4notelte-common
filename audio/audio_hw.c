@@ -2737,15 +2737,12 @@ static int adev_set_voice_volume(struct audio_hw_device *dev, float volume)
 
     adev->voice_volume = volume;
 
-    voice_index = update_voice_index(adev);
-
     ALOGD("%s: Voice Index: %i", __func__, voice_index);
 
     if (adev->mode == AUDIO_MODE_IN_CALL) {
         if (csd_volume_index == NULL) {
             ALOGE("dlsym: Error:%s Loading csd_volume_index", dlerror());
         } else {
-            volume = volume * (float)voice_index;
             ALOGD("%s: calling csd_volume_index(%f)", __func__, volume);
             csd_volume_index(volume);
         }
@@ -2755,32 +2752,7 @@ static int adev_set_voice_volume(struct audio_hw_device *dev, float volume)
 
 int update_voice_index(struct m0_audio_device *adev)
 {
-      int voice_index;
-
-      switch(adev->out_device) {
-        case AUDIO_DEVICE_OUT_EARPIECE:
-            voice_index = get_volume(INCALL_EARPIECE);
-            break;
-        case AUDIO_DEVICE_OUT_SPEAKER:
-        case AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET:
-        case AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET:
-        case AUDIO_DEVICE_OUT_AUX_DIGITAL:
-            voice_index = get_volume(INCALL_SPEAKER);
-            break;
-        case AUDIO_DEVICE_OUT_WIRED_HEADSET:
-        case AUDIO_DEVICE_OUT_WIRED_HEADPHONE:
-            voice_index = get_volume(INCALL_HEADPHONE);
-            break;
-        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO:
-        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET:
-        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_CARKIT:
-            voice_index = get_volume(INCALL_BT);
-            break;
-        default:
-            voice_index = get_volume(INCALL_EARPIECE);
-            break;
-    }
-    return voice_index;
+    return 0;
 }
 
 static int adev_set_master_volume(struct audio_hw_device *dev, float volume)
