@@ -530,15 +530,11 @@ static void set_incall_device(struct m0_audio_device *adev)
     uint32_t mDevSettingsFlag = TTY_OFF;
 
     switch(adev->out_device) {
-        case AUDIO_DEVICE_OUT_EARPIECE:
-            rx_dev_id = DEVICE_HANDSET_RX_ACDB_ID;
-            tx_dev_id = DEVICE_HANDSET_TX_ACDB_ID;
-            break;
         case AUDIO_DEVICE_OUT_SPEAKER:
         case AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET:
         case AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET:
         case AUDIO_DEVICE_OUT_AUX_DIGITAL:
-            rx_dev_id = DEVICE_SPEAKER_MONO_RX_ACDB_ID;
+            rx_dev_id = DEVICE_SPEAKER_RX_ACDB_ID;
             tx_dev_id = DEVICE_SPEAKER_TX_ACDB_ID;
             break;
         case AUDIO_DEVICE_OUT_WIRED_HEADSET:
@@ -558,8 +554,8 @@ static void set_incall_device(struct m0_audio_device *adev)
             }
             break;
         default:
-            rx_dev_id = DEVICE_HANDSET_RX_ACDB_ID;
-            tx_dev_id = DEVICE_HANDSET_TX_ACDB_ID;
+            rx_dev_id = DEVICE_SPEAKER_MONO_RX_ACDB_ID;
+            tx_dev_id = DEVICE_SPEAKER_TX_ACDB_ID;
             break;
     }
 
@@ -657,9 +653,9 @@ static void select_mode(struct m0_audio_device *adev)
         ALOGE("Entering IN_CALL state, in_call=%d", adev->in_call);
         if (!adev->in_call) {
             force_all_standby(adev);
-            /* force earpiece route for in call state if speaker is the
+            /* force speaker route for in call state if speaker is the
             only currently selected route. This prevents having to tear
-            down the modem PCMs to change route from speaker to earpiece
+            down the modem PCMs to change route from speaker to speaker
             after the ringtone is played, but doesn't cause a route
             change if a headset or bt device is already connected. If
             speaker is not the only thing active, just remove it from
@@ -668,7 +664,7 @@ static void select_mode(struct m0_audio_device *adev)
             manager will update the output device after the audio mode
             change, even if the device selection did not change. */
             if (adev->out_device == AUDIO_DEVICE_OUT_SPEAKER) {
-                adev->out_device = AUDIO_DEVICE_OUT_EARPIECE;
+                //adev->out_device = AUDIO_DEVICE_OUT_EARPIECE;
                 adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
             } else
                 adev->out_device &= ~AUDIO_DEVICE_OUT_SPEAKER;
@@ -728,7 +724,8 @@ static void select_output_device(struct m0_audio_device *adev)
             ALOGD("%s: AUDIO_DEVICE_OUT_WIRED_HEADPHONE", __func__);
             break;
         case AUDIO_DEVICE_OUT_EARPIECE:
-            ALOGD("%s: AUDIO_DEVICE_OUT_EARPIECE", __func__);
+            adev->out_device = AUDIO_DEVICE_OUT_SPEAKER & ~AUDIO_DEVICE_BIT_IN;
+            ALOGD("%s: No Earpiece, Forcing AUDIO_DEVICE_OUT_SPEAKER", __func__);
             break;
         case AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET:
             ALOGD("%s: AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET", __func__);
@@ -825,11 +822,6 @@ static void select_input_device(struct m0_audio_device *adev)
     switch(input_device) {
         case AUDIO_DEVICE_IN_BUILTIN_MIC:
             ALOGD("%s: AUDIO_DEVICE_IN_BUILTIN_MIC", __func__);
-            break;
-        case AUDIO_DEVICE_IN_BACK_MIC:
-            ALOGD("%s: AUDIO_DEVICE_IN_BACK_MIC", __func__);
-            // Force use both mics for video recording
-            adev->in_device = (AUDIO_DEVICE_IN_BACK_MIC | AUDIO_DEVICE_IN_BUILTIN_MIC) & ~AUDIO_DEVICE_BIT_IN;
             break;
         case AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET:
             ALOGD("%s: AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET", __func__);
@@ -2737,12 +2729,15 @@ static int adev_set_voice_volume(struct audio_hw_device *dev, float volume)
 
     adev->voice_volume = volume;
 
+    voice_index = update_voice_index(adev);
+
     ALOGD("%s: Voice Index: %i", __func__, voice_index);
 
     if (adev->mode == AUDIO_MODE_IN_CALL) {
         if (csd_volume_index == NULL) {
             ALOGE("dlsym: Error:%s Loading csd_volume_index", dlerror());
         } else {
+            volume = volume * (float)voice_index;
             ALOGD("%s: calling csd_volume_index(%f)", __func__, volume);
             csd_volume_index(volume);
         }
@@ -2752,7 +2747,29 @@ static int adev_set_voice_volume(struct audio_hw_device *dev, float volume)
 
 int update_voice_index(struct m0_audio_device *adev)
 {
-    return 0;
+      int voice_index;
+
+      switch(adev->out_device) {
+        case AUDIO_DEVICE_OUT_SPEAKER:
+        case AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET:
+        case AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET:
+        case AUDIO_DEVICE_OUT_AUX_DIGITAL:
+            voice_index = get_volume(INCALL_SPEAKER);
+            break;
+        case AUDIO_DEVICE_OUT_WIRED_HEADSET:
+        case AUDIO_DEVICE_OUT_WIRED_HEADPHONE:
+            voice_index = get_volume(INCALL_HEADPHONE);
+            break;
+        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO:
+        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET:
+        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_CARKIT:
+            voice_index = get_volume(INCALL_BT);
+            break;
+        default:
+            voice_index = get_volume(INCALL_SPEAKER);
+            break;
+    }
+    return voice_index;
 }
 
 static int adev_set_master_volume(struct audio_hw_device *dev, float volume)
@@ -3329,7 +3346,7 @@ struct audio_module HAL_MODULE_INFO_SYM = {
         .module_api_version = AUDIO_MODULE_API_VERSION_0_1,
         .hal_api_version = HARDWARE_HAL_API_VERSION,
         .id = AUDIO_HARDWARE_MODULE_ID,
-        .name = "P4NoteLTE audio HW HAL",
+        .name = "P4NOTELTE audio HW HAL",
         .author = "The CyanogenMod Project",
         .methods = &hal_module_methods,
     },

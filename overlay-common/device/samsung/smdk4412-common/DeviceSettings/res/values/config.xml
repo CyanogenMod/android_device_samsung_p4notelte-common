@@ -19,7 +19,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   
     <!-- Audio Tuning -->
-    <bool name="has_incall_audio_tuning">false</bool>
+    <bool name="has_incall_audio_tuning">true</bool>
     <bool name="has_output_audio_tuning">true</bool>
 
 </resources>

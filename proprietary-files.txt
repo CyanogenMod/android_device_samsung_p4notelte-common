@@ -33,6 +33,7 @@ system/lib/libqmi_common_so.so
 system/lib/libqmi_csi.so
 system/lib/libqmi_encdec.so
 system/lib/libqmiservices.so
+system/lib/libril.so
 system/lib/libsecril-client.so
 system/lib/hw/vendor-camera.exynos4.so
 system/lib/hw/sensors.smdk4x12.so

@@ -32,12 +32,18 @@ PRODUCT_PACKAGES += \
     tiny_hw \
     DeviceSettings \
     Stk \
-    SamsungServiceMode
+    SamsungServiceMode \
+    Mms
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=SamsungQualcommRIL \
     mobiledata.interfaces=pdp0,wlan0,gprs,ppp0
+
+# Charger
+PRODUCT_PACKAGES += \
+    charger \
+    charger_res_images
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
