@@ -554,7 +554,7 @@ static void set_incall_device(struct m0_audio_device *adev)
             }
             break;
         default:
-            rx_dev_id = DEVICE_SPEAKER_MONO_RX_ACDB_ID;
+            rx_dev_id = DEVICE_SPEAKER_RX_ACDB_ID;
             tx_dev_id = DEVICE_SPEAKER_TX_ACDB_ID;
             break;
     }
