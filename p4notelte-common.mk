@@ -35,6 +35,10 @@ PRODUCT_PACKAGES += \
     SamsungServiceMode \
     Mms
 
+# Camera
+PRODUCT_PACKAGES += \
+    camera.smdk4x12
+
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=SamsungQualcommRIL \

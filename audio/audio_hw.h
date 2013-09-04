@@ -66,19 +66,6 @@
 /* sampling rate when using VX port for wide band */
 #define VX_WB_SAMPLING_RATE 16000
 
-#define MAX_NUM_VOLUME_FILES 6
-#define AUDIO_DIR "/data/local/audio"
-
-/* in-call files */
-#define INCALL_EARPIECE "/data/local/audio/incall_earpiece"
-#define INCALL_HEADPHONE "/data/local/audio/incall_headphone"
-#define INCALL_SPEAKER "/data/local/audio/incall_speaker"
-#define INCALL_BT "/data/local/audio/incall_bt"
-
-/* out stream files */
-#define OUT_HEADPHONE "/data/local/audio/out_headphone"
-#define OUT_SPEAKER "/data/local/audio/out_speaker"
-
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 #define STRING_TO_ENUM(string) { #string, string }
@@ -113,15 +100,6 @@ enum tty_modes {
     TTY_MODE_VCO,
     TTY_MODE_HCO,
     TTY_MODE_FULL
-};
-
-char *volume_file[MAX_NUM_VOLUME_FILES] = {
-    INCALL_EARPIECE,
-    INCALL_HEADPHONE,
-    INCALL_SPEAKER,
-    INCALL_BT,
-    OUT_HEADPHONE,
-    OUT_SPEAKER
 };
 
 /* ACDB Device ID macros */
@@ -175,8 +153,6 @@ struct mixer_ctls
 {
     struct mixer_ctl *mixinl_in1l_volume;
     struct mixer_ctl *mixinl_in2l_volume;
-    struct mixer_ctl *speaker_volume;
-    struct mixer_ctl *headphone_volume;
 };
 
 struct route_setting
