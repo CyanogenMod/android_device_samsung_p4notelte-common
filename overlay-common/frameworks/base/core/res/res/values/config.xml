@@ -48,4 +48,7 @@
          For example, a device with Home, Back and Menu keys would set this
          config to 7. -->
     <integer name="config_deviceHardwareKeys">0</integer>
+
+    <!-- True if the Irda service should be started at system start -->
+    <bool name="config_enableIrdaManagerService">true</bool>
 </resources>
