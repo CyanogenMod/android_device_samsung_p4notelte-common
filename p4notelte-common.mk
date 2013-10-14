@@ -48,11 +48,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=SamsungQualcommRIL \
     mobiledata.interfaces=pdp0,wlan0,gprs,ppp0
 
-# Charger
-PRODUCT_PACKAGES += \
-    charger \
-    charger_res_images
-
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml
@@ -62,7 +57,7 @@ PRODUCT_CHARACTERISTICS := tablet
 
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
+$(call inherit-product, vendor/samsung/p4notelte/p4notelte-vendor.mk)
+
 $(call inherit-product, device/samsung/smdk4412-common/common.mk)
 $(call inherit-product, device/samsung/smdk4412-qcom-common/common.mk)
-
-$(call inherit-product-if-exists, vendor/samsung/p4notelte/p4notelte-vendor.mk)
