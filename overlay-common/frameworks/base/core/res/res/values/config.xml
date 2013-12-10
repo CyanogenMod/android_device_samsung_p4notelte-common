@@ -51,4 +51,12 @@
 
     <!-- True if the Irda service should be started at system start -->
     <!--<bool name="config_enableIrdaManagerService">true</bool>-->
+
+    <!-- Enable lockscreen translucent decor -->
+    <bool name="config_enableLockScreenTranslucentDecor">true</bool>
+
+    <!-- Boolean indicating whether the start command should be called on the wireless interface
+         when starting the SoftAp -->
+    <bool name="config_wifiApStartInterface">true</bool>
+
 </resources>

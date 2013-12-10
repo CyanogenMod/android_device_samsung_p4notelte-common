@@ -40,8 +40,8 @@ PRODUCT_PACKAGES += \
     camera.smdk4x12
 
 # IRDA
-PRODUCT_PACKAGES += \
-    irda.exynos4
+#PRODUCT_PACKAGES += \
+#    irda.exynos4
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -55,7 +55,7 @@ PRODUCT_PACKAGES += \
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml
+    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
     
 # Set product characteristic to tablet, needed for some ui elements
 PRODUCT_CHARACTERISTICS := tablet
