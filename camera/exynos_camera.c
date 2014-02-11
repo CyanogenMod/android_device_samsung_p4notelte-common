@@ -1116,6 +1116,10 @@ int exynos_camera_capture(struct exynos_camera *exynos_camera)
 	index = exynos_v4l2_dqbuf_cap(exynos_camera, 0);
 	if (index < 0 || index >= buffers_count) {
 		rc = exynos_v4l2_poll(exynos_camera, 0);
+                if (rc == 0) {
+                       usleep(100);
+                       rc = exynos_v4l2_poll(exynos_camera, 0);
+                }
 		if (rc < 0) {
 			ALOGE("%s Unable to poll", __func__);
 			goto error;
@@ -2148,6 +2152,9 @@ void *exynos_camera_preview_thread(void *data)
 		}
 
 		if (exynos_camera->preview_listener->busy) {
+            // Prevent preview restart race conditions
+            usleep((useconds_t)25 * 1000);
+
 			rc = exynos_camera_preview(exynos_camera);
 			if (rc < 0) {
 				ALOGE("%s: Unable to preview", __func__);
@@ -2824,8 +2831,7 @@ int exynos_camera_picture_thread_start(struct exynos_camera *exynos_camera)
 		goto error;
 	}
 
-	if(!exynos_camera->camera_fimc_is)
-		format = exynos_camera->picture_format;
+	exynos_camera->picture_completed = 0;
 		
 	listener = exynos_camera_capture_listener_register(exynos_camera, exynos_camera->picture_width, exynos_camera->picture_height, format, exynos_camera_picture_callback);
 	if (listener == NULL) {
@@ -4114,7 +4120,7 @@ struct camera_module HAL_MODULE_INFO_SYM = {
 		.module_api_version = CAMERA_MODULE_API_VERSION_1_0,
 		.id = CAMERA_HARDWARE_MODULE_ID,
 		.name = "Exynos Camera",
-		.author = "Paul Kocialkowski",
+		.author = "Paul Kocialkowski, Scott Brissenden",
 		.methods = &exynos_camera_module_methods,
 	},
 	.get_number_of_cameras = exynos_camera_get_number_of_cameras,
