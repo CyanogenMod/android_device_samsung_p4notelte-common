@@ -49,7 +49,7 @@
 /data/misc/radio/dlnk                   u:object_r:radio_data_file:s0
 
 # Binaries
-/system/bin/qmuxd                u:object_r:qmux_exec:s0
+/system/bin/qmuxd                u:object_r:qmuxd_exec:s0
 /system/bin/netmgrd              u:object_r:netmgrd_exec:s0
 /system/bin/efsks                u:object_r:kickstart_exec:s0
 /system/bin/ks                   u:object_r:kickstart_exec:s0

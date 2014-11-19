@@ -31,9 +31,6 @@ COMMON_GLOBAL_CFLAGS += -DPROPERTY_PERMS_APPEND='{ "ril.ks.status", AID_SYSTEM, 
 # Camera
 COMMON_GLOBAL_CFLAGS += -DCAMERA_WITH_CITYID_PARAM
 
-# GPS
-BOARD_GPS_SET_PRIVACY := true
-
 COMMON_GLOBAL_CFLAGS += -DEXYNOS4X12_TABLET
 
 # Charging mode
@@ -49,6 +46,8 @@ BOARD_SEPOLICY_DIRS += \
     device/samsung/p4notelte-common/selinux
 
 BOARD_SEPOLICY_UNION += \
+    bluetooth.te \
+    radio.te \
     file_contexts \
     te_macros \
     device.te \
@@ -59,9 +58,17 @@ BOARD_SEPOLICY_UNION += \
     kickstart.te \
     mediaserver.te \
     netmgrd.te \
-    qmux.te \
+    qmuxd.te \
     rild.te \
     secril.te \
+    servicemanager.te \
+    sysinit.te \
     system.te \
+    system_server.te \
+    time_daemon.te \
     ueventd.te \
-    wpa_supplicant.te
+    untrusted_app.te \
+    vold.te \
+    wpa.te \
+    wpa_supplicant.te \
+    zygote.te

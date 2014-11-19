@@ -48,7 +48,6 @@ PRODUCT_COPY_FILES += \
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.telephony.ril_class=SamsungQualcommRIL \
     mobiledata.interfaces=pdp0,wlan0,gprs,ppp0
 
 # Charger

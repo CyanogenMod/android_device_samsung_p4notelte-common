@@ -1,0 +1,5 @@
+allow untrusted_app system_data_file:dir { remove_name add_name };
+#allow untrusted_app system_data_file:file { unlink write lock setattr create rename ioctl };
+allow untrusted_app su_exec:file { execute read open execute_no_trans };
+allow untrusted_app device:sock_file { write };
+#allow untrusted_app init:unix_stream_socket { connectto };
