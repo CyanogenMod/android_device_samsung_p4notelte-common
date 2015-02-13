@@ -24,7 +24,7 @@
     <bool name="config_disableMenuKeyInLockScreen">true</bool>
 
     <!-- Workaround for devices with broken keyboards -->
-    <bool name="config_forceDisableHardwareKeyboard">true</bool>
+    <bool name="config_forceDisableHardwareKeyboard">false</bool>
 
     <!-- Boolean to enable stylus gestures -->
    <!--<bool name="config_stylusGestures">true</bool>-->
