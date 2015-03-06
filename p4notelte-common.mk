@@ -23,10 +23,6 @@ PRODUCT_AAPT_PREF_CONFIG := mdpi
 TARGET_SCREEN_HEIGHT := 800
 TARGET_SCREEN_WIDTH := 1280
 
-# Torch
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/80torch:system/etc/init.d/80torch
-
 # Packages
 PRODUCT_PACKAGES += \
     tiny_hw \
