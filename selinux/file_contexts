@@ -3,6 +3,8 @@
 /dev/ump                                u:object_r:mali_device:s0
 /dev/fimg2d                             u:object_r:mali_device:s0
 
+/dev/s3c-mfc                            u:object_r:mfc_device:s0
+
 # RIL
 /dev/mdm                                u:object_r:radio_device:s0
 /dev/hsicctl[0-3]*                      u:object_r:radio_device:s0
