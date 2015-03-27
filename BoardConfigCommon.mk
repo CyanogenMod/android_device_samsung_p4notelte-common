@@ -57,17 +57,20 @@ BOARD_SEPOLICY_UNION += \
     init.te \
     kickstart.te \
     mediaserver.te \
+    netd.te \
     netmgrd.te \
+    nfc.te \
+    qmiproxy.te \
     qmuxd.te \
     rild.te \
     secril.te \
     servicemanager.te \
     sysinit.te \
     system.te \
+    system_app.te \
     system_server.te \
     time_daemon.te \
     ueventd.te \
-    untrusted_app.te \
     vold.te \
     wpa.te \
     wpa_supplicant.te \
