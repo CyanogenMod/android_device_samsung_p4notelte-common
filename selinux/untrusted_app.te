@@ -1,5 +1,6 @@
-allow untrusted_app system_data_file:dir { remove_name add_name };
-#allow untrusted_app system_data_file:file { unlink write lock setattr create rename ioctl };
-allow untrusted_app su_exec:file { execute read open execute_no_trans };
-allow untrusted_app device:sock_file { write };
-#allow untrusted_app init:unix_stream_socket { connectto };
+allow untrusted_app block_device:dir { open read search };
+allow untrusted_app log_device:chr_file { open write };
+allow untrusted_app kernel:system { module_request };
+allow untrusted_app firmware_camera:dir { read getattr open };
+allow untrusted_app firmware_camera:file getattr;
+allow untrusted_app firmware_mfc:file getattr;

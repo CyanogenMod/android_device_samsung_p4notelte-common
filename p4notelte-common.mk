@@ -26,10 +26,8 @@ TARGET_SCREEN_WIDTH := 1280
 # Packages
 PRODUCT_PACKAGES += \
     tiny_hw \
-    DeviceSettings \
-    Stk \
     SamsungServiceMode \
-    Mms
+    libsamsung_symbols
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -46,15 +44,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     mobiledata.interfaces=pdp0,wlan0,gprs,ppp0
 
-# Charger
-PRODUCT_PACKAGES += \
-    charger \
-    charger_res_images
-
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
-    
+    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml
+
 # Set product characteristic to tablet, needed for some ui elements
 PRODUCT_CHARACTERISTICS := tablet
 

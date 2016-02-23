@@ -25,9 +25,6 @@ LOCAL_PATH := device/samsung/p4notelte-common
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/vnd_p4notelte.txt
 
-# RIL
-COMMON_GLOBAL_CFLAGS += -DPROPERTY_PERMS_APPEND='{ "ril.ks.status", AID_SYSTEM, 0 },'
-
 # Camera
 COMMON_GLOBAL_CFLAGS += -DCAMERA_WITH_CITYID_PARAM
 
@@ -42,36 +39,4 @@ BOARD_BATTERY_DEVICE_NAME := "battery"
 -include vendor/samsung/p4notelte-common/BoardConfigVendor.mk
 
 # Selinux
-BOARD_SEPOLICY_DIRS += \
-    device/samsung/p4notelte-common/selinux
-
-BOARD_SEPOLICY_UNION += \
-    bluetooth.te \
-    radio.te \
-    file_contexts \
-    te_macros \
-    device.te \
-    dhcp.te \
-    domain.te \
-    file.te \
-    init.te \
-    kickstart.te \
-    mediaserver.te \
-    netd.te \
-    netmgrd.te \
-    nfc.te \
-    qmiproxy.te \
-    qmuxd.te \
-    rild.te \
-    secril.te \
-    servicemanager.te \
-    sysinit.te \
-    system.te \
-    system_app.te \
-    system_server.te \
-    time_daemon.te \
-    ueventd.te \
-    vold.te \
-    wpa.te \
-    wpa_supplicant.te \
-    zygote.te
+BOARD_SEPOLICY_DIRS += device/samsung/p4notelte-common/selinux
